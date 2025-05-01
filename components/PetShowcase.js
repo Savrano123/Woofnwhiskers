@@ -1,14 +1,16 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import FallbackImage from './FallbackImage';
+import StaticImage from './StaticImage';
 
 export default function PetShowcase({ pets = [] }) {
   const [visiblePets, setVisiblePets] = useState(4);
-  
+
   const loadMore = () => {
     setVisiblePets(prev => Math.min(prev + 4, pets.length));
   };
-  
+
   if (!pets || pets.length === 0) {
     return (
       <div className="py-12 bg-white">
@@ -19,21 +21,22 @@ export default function PetShowcase({ pets = [] }) {
       </div>
     );
   }
-  
+
   return (
     <div className="py-12 bg-white">
       <div className="container mx-auto px-4">
         <h2 className="text-3xl font-bold text-center mb-8">Our Pets</h2>
-        
+
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {pets.slice(0, visiblePets).map((pet) => (
             <div key={pet.id} className="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105">
-              <div className="relative h-48 w-full">
-                <Image 
-                  src={pet.imageUrl || '/images/placeholder-pet.jpg'} 
+              <div className="relative h-48 w-full overflow-hidden">
+                <StaticImage
+                  src={pet.imageUrl || '/images/placeholder-pet.jpg'}
+                  fallbackSrc="/images/placeholder-pet.jpg"
                   alt={pet.name}
-                  layout="fill"
-                  objectFit="cover"
+                  className="w-full h-full"
+                  style={{ objectFit: 'cover', objectPosition: 'center' }}
                 />
               </div>
               <div className="p-4">
@@ -49,7 +52,7 @@ export default function PetShowcase({ pets = [] }) {
             </div>
           ))}
         </div>
-        
+
         {visiblePets < pets.length && (
           <div className="mt-8 text-center">
             <button
@@ -60,7 +63,7 @@ export default function PetShowcase({ pets = [] }) {
             </button>
           </div>
         )}
-        
+
         <div className="mt-8 text-center">
           <Link href="/pets">
             <a className="text-blue-600 font-medium hover:text-blue-800">

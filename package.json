@@ -4,16 +4,18 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "node scripts/copy-images.js && next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "copy-images": "node scripts/copy-images.js"
   },
   "dependencies": {
     "formidable": "^3.5.2",
     "next": "^12.3.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-quill": "^2.0.0"
+    "react-quill": "^2.0.0",
+    "sharp": "^0.34.1"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.14",

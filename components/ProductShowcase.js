@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import FallbackImage from './FallbackImage';
+import StaticImage from './StaticImage';
 
 export default function ProductShowcase({ products = [] }) {
   const [visibleProducts, setVisibleProducts] = useState(4);
@@ -28,12 +30,13 @@ export default function ProductShowcase({ products = [] }) {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {products.slice(0, visibleProducts).map((product) => (
             <div key={product.id} className="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105">
-              <div className="relative h-48 w-full">
-                <Image
+              <div className="relative h-48 w-full overflow-hidden">
+                <StaticImage
                   src={product.imageUrl || '/images/placeholder-product.jpg'}
+                  fallbackSrc="/images/placeholder-product.jpg"
                   alt={product.name}
-                  layout="fill"
-                  objectFit="cover"
+                  className="w-full h-full"
+                  style={{ objectFit: 'cover', objectPosition: 'center' }}
                 />
               </div>
               <div className="p-4">

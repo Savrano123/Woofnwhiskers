@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import FallbackImage from './FallbackImage';
+import StaticImage from './StaticImage';
 
 export default function Carousel({ slides = [], autoplaySpeed = 5000, isLoading = false }) {
   console.log('Carousel component received slides:', slides);
@@ -96,16 +98,12 @@ export default function Carousel({ slides = [], autoplaySpeed = 5000, isLoading 
             }`}
           >
             <div className="absolute inset-0 z-0">
-              <Image
-                src={slide.imageUrl || '/images/carousel/slide1.jpg'}
+              <StaticImage
+                src={slide.imageUrl || '/images/placeholder-product.jpg'}
+                fallbackSrc="/images/placeholder-product.jpg"
                 alt={slide.title}
-                layout="fill"
-                objectFit="cover"
-                priority={index === 0}
-                className="brightness-[0.85]"
-                onError={() => {
-                  console.error(`Failed to load image: ${slide.imageUrl}`);
-                }}
+                className="w-full h-full brightness-[0.85]"
+                style={{ objectFit: 'cover', objectPosition: 'center' }}
               />
             </div>
 
