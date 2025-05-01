@@ -1,0 +1,13 @@
+[
+  {
+    "name": "Currently Not Available",
+    "category": "Food",
+    "petType": "Dog",
+    "price": 1,
+    "stock": 1,
+    "description": "",
+    "imageUrl": "/images/products/1745307570019.jpg",
+    "id": 1,
+    "createdAt": "2025-04-22T07:39:30.125Z"
+  }
+]

@@ -1,0 +1,11 @@
+I want to create a website to sell pets online, along with pets I want to sell pet food and pet accessories like pet beds, pet homes, chains, collars, etc. 
+
+Now i want to be able to change the info like pet profiles, accessories lists, food items list.
+
+I need an admin dashboard to edit my website. Also a login page for admin. 
+
+So i need a Homepage with pet profiles, List of accessories, list of food items, contact information at the bottom. 
+
+Im from Dwarka, new delhi, india.
+
+I want the following features, A search bar at homepage, I want to be able to upload my own photos for pet profiles and other items from admin dashboard, I want to be able to access info about people who come to my website, I want to collect phone numbers, emails of potential customers, 

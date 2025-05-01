@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Fix Carousel Data</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    h1, h2 {
+      color: #333;
+    }
+    pre {
+      background-color: #f5f5f5;
+      padding: 10px;
+      border-radius: 4px;
+      overflow-x: auto;
+    }
+    .section {
+      margin-bottom: 30px;
+      border: 1px solid #ddd;
+      padding: 15px;
+      border-radius: 4px;
+    }
+    .actions {
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+    button {
+      padding: 8px 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    .fix-button {
+      background-color: #f44336;
+    }
+    .fix-button:hover {
+      background-color: #d32f2f;
+    }
+    .result {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 4px;
+    }
+    .success {
+      background-color: #dff0d8;
+      color: #3c763d;
+    }
+    .error {
+      background-color: #f2dede;
+      color: #a94442;
+    }
+  </style>
+</head>
+<body>
+  <h1>Fix Carousel Data</h1>
+  <p>This page helps fix issues with the carousel data.</p>
+  
+  <div class="actions">
+    <button id="checkBtn">Check Carousel Data</button>
+    <button id="fixBtn" class="fix-button">Fix Carousel Data</button>
+    <button id="refreshBtn">Refresh Page</button>
+  </div>
+  
+  <div id="result" class="result" style="display: none;"></div>
+  
+  <div class="section">
+    <h2>Current Carousel Data</h2>
+    <pre id="currentData">Loading...</pre>
+  </div>
+  
+  <div class="section">
+    <h2>Available Images</h2>
+    <pre id="availableImages">Loading...</pre>
+    <div id="imagePreviewsContainer"></div>
+  </div>
+  
+  <script>
+    document.getElementById('checkBtn').addEventListener('click', checkCarouselData);
+    document.getElementById('fixBtn').addEventListener('click', fixCarouselData);
+    document.getElementById('refreshBtn').addEventListener('click', () => window.location.reload());
+    
+    async function checkCarouselData() {
+      try {
+        const response = await fetch('/api/debug/carousel');
+        const data = await response.json();
+        
+        // Display carousel data
+        document.getElementById('currentData').textContent = JSON.stringify(data.carouselData, null, 2);
+        
+        // Display available images
+        document.getElementById('availableImages').textContent = JSON.stringify(data.dirFiles, null, 2);
+        
+        // Create image previews
+        const previewsContainer = document.getElementById('imagePreviewsContainer');
+        previewsContainer.innerHTML = '';
+        
+        data.dirFiles.forEach(file => {
+          if (file.name.endsWith('.jpg') || file.name.endsWith('.png') || file.name.endsWith('.gif')) {
+            const imgContainer = document.createElement('div');
+            imgContainer.style.marginBottom = '20px';
+            
+            const img = document.createElement('img');
+            img.src = file.path + '?t=' + new Date().getTime(); // Add timestamp to prevent caching
+            img.alt = file.name;
+            img.style.maxWidth = '200px';
+            img.style.maxHeight = '200px';
+            img.style.border = '1px solid #ddd';
+            
+            const label = document.createElement('div');
+            label.textContent = `${file.name} (${formatFileSize(file.size)})`;
+            
+            imgContainer.appendChild(img);
+            imgContainer.appendChild(label);
+            previewsContainer.appendChild(imgContainer);
+          }
+        });
+        
+        // Check for issues
+        const issues = data.imageChecks.filter(check => !check.exists);
+        
+        const resultDiv = document.getElementById('result');
+        resultDiv.style.display = 'block';
+        
+        if (issues.length > 0) {
+          resultDiv.className = 'result error';
+          resultDiv.innerHTML = `
+            <h3>Issues Found</h3>
+            <p>${issues.length} carousel slides have missing images:</p>
+            <pre>${JSON.stringify(issues, null, 2)}</pre>
+            <p>Click the "Fix Carousel Data" button to fix these issues.</p>
+          `;
+        } else {
+          resultDiv.className = 'result success';
+          resultDiv.innerHTML = `
+            <h3>No Issues Found</h3>
+            <p>All carousel slides have valid images.</p>
+          `;
+        }
+      } catch (error) {
+        console.error('Error checking carousel data:', error);
+        const resultDiv = document.getElementById('result');
+        resultDiv.style.display = 'block';
+        resultDiv.className = 'result error';
+        resultDiv.innerHTML = `
+          <h3>Error</h3>
+          <p>Error checking carousel data: ${error.message}</p>
+        `;
+      }
+    }
+    
+    async function fixCarouselData() {
+      try {
+        const response = await fetch('/api/debug/fix-carousel');
+        const data = await response.json();
+        
+        const resultDiv = document.getElementById('result');
+        resultDiv.style.display = 'block';
+        
+        if (data.success) {
+          resultDiv.className = 'result success';
+          
+          if (data.message === 'No fixes needed') {
+            resultDiv.innerHTML = `
+              <h3>No Fixes Needed</h3>
+              <p>All carousel slides have valid images.</p>
+            `;
+          } else {
+            resultDiv.innerHTML = `
+              <h3>Carousel Data Fixed</h3>
+              <p>${data.fixedSlides.filter(s => s._fixed).length} slides were fixed.</p>
+              <pre>${JSON.stringify(data.fixedSlides, null, 2)}</pre>
+            `;
+          }
+        } else {
+          resultDiv.className = 'result error';
+          resultDiv.innerHTML = `
+            <h3>Error</h3>
+            <p>${data.message}</p>
+          `;
+        }
+        
+        // Refresh the data display
+        checkCarouselData();
+      } catch (error) {
+        console.error('Error fixing carousel data:', error);
+        const resultDiv = document.getElementById('result');
+        resultDiv.style.display = 'block';
+        resultDiv.className = 'result error';
+        resultDiv.innerHTML = `
+          <h3>Error</h3>
+          <p>Error fixing carousel data: ${error.message}</p>
+        `;
+      }
+    }
+    
+    function formatFileSize(bytes) {
+      if (bytes < 1024) return bytes + ' bytes';
+      else if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+      else return (bytes / 1048576).toFixed(1) + ' MB';
+    }
+    
+    // Check carousel data on page load
+    checkCarouselData();
+  </script>
+</body>
+</html>

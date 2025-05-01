@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple Upload Test</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    button {
+      padding: 8px 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    pre {
+      background-color: #f5f5f5;
+      padding: 10px;
+      border-radius: 4px;
+      overflow-x: auto;
+    }
+  </style>
+</head>
+<body>
+  <h1>Simple Upload Test</h1>
+  
+  <form id="uploadForm">
+    <div class="form-group">
+      <label for="file">Select File:</label>
+      <input type="file" id="file" name="file" required>
+    </div>
+    
+    <div class="form-group">
+      <label for="type">Select Type:</label>
+      <select id="type" name="type">
+        <option value="carousel">Carousel</option>
+        <option value="pets">Pets</option>
+        <option value="products">Products</option>
+      </select>
+    </div>
+    
+    <button type="submit">Upload</button>
+  </form>
+  
+  <div id="result" style="margin-top: 20px; display: none;">
+    <h2>Result:</h2>
+    <pre id="resultContent"></pre>
+  </div>
+  
+  <script>
+    document.getElementById('uploadForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const resultDiv = document.getElementById('result');
+      const resultContent = document.getElementById('resultContent');
+      resultDiv.style.display = 'block';
+      resultContent.textContent = 'Uploading...';
+      
+      try {
+        const fileInput = document.getElementById('file');
+        const typeInput = document.getElementById('type');
+        
+        if (!fileInput.files || fileInput.files.length === 0) {
+          throw new Error('Please select a file');
+        }
+        
+        const file = fileInput.files[0];
+        const type = typeInput.value;
+        
+        console.log('Uploading file:', file.name);
+        console.log('Type:', type);
+        
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('type', type);
+        
+        // Log FormData entries
+        console.log('FormData entries:');
+        for (let [key, value] of formData.entries()) {
+          console.log(`${key}: ${value instanceof File ? value.name : value}`);
+        }
+        
+        const response = await fetch('/api/simple-upload', {
+          method: 'POST',
+          body: formData
+        });
+        
+        const responseText = await response.text();
+        
+        try {
+          // Try to parse as JSON
+          const data = JSON.parse(responseText);
+          resultContent.textContent = JSON.stringify(data, null, 2);
+          
+          if (data.success) {
+            resultContent.textContent += '\n\nFile uploaded successfully!';
+            if (data.path) {
+              const imgPreview = document.createElement('img');
+              imgPreview.src = data.path;
+              imgPreview.style.maxWidth = '100%';
+              imgPreview.style.marginTop = '10px';
+              resultDiv.appendChild(imgPreview);
+            }
+          }
+        } catch (e) {
+          // If not JSON, show as text
+          resultContent.textContent = responseText;
+        }
+        
+        if (!response.ok) {
+          resultContent.textContent = `Error (${response.status}): ${resultContent.textContent}`;
+        }
+      } catch (error) {
+        resultContent.textContent = `Error: ${error.message}`;
+        console.error('Upload error:', error);
+      }
+    });
+  </script>
+</body>
+</html>

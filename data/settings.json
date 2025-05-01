@@ -1,0 +1,30 @@
+[
+  {
+    "general": {
+      "storeName": "WoofnWhiskers",
+      "storeAddress": "Sector 8, Dwarka, New Delhi",
+      "storePhones": [
+        "+919711585435",
+        "+919711699088",
+        ""
+      ],
+      "storeEmail": "woofnwhiskers.india@gmail.com",
+      "businessHours": "Monday - Friday: 10:00 AM - 8:00 PM\nSaturday: 10:00 AM - 6:00 PM\nSunday: 11:00 AM - 5:00 PM"
+    },
+    "social": {
+      "facebook": "https://facebook.com/woofnwhiskers",
+      "instagram": "https://instagram.com/woofnwhiskers",
+      "twitter": "https://twitter.com/woofnwhisters123",
+      "youtube": ""
+    },
+    "notifications": {
+      "emailNotifications": false,
+      "smsNotifications": false,
+      "newLeadNotifications": false,
+      "orderNotifications": false
+    },
+    "id": 1,
+    "createdAt": "2025-04-16T15:18:50.539Z",
+    "updatedAt": "2025-05-01T15:56:13.932Z"
+  }
+]

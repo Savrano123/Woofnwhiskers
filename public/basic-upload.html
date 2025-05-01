@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Basic Upload Test</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    button {
+      padding: 8px 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    pre {
+      background-color: #f5f5f5;
+      padding: 10px;
+      border-radius: 4px;
+      overflow-x: auto;
+    }
+  </style>
+</head>
+<body>
+  <h1>Basic Upload Test</h1>
+  
+  <form action="/api/basic-upload" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+      <label for="file">Select File:</label>
+      <input type="file" id="file" name="file" required>
+    </div>
+    
+    <div class="form-group">
+      <label for="type">Select Type:</label>
+      <select id="type" name="type">
+        <option value="carousel">Carousel</option>
+        <option value="pets">Pets</option>
+        <option value="products">Products</option>
+      </select>
+    </div>
+    
+    <button type="submit">Upload</button>
+  </form>
+  
+  <p>This form submits directly to the server without JavaScript.</p>
+</body>
+</html>

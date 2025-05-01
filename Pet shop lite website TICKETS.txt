@@ -1,0 +1,510 @@
+I'll create detailed Jira epics with associated tickets for the pet shop e-commerce website, following your specified rules.
+Epic 1: Database and Backend Foundation
+Goal: Establish core database schema and backend API structure to support pet e-commerce functionality
+Ticket 1.1: Database Schema Implementation
+Title: Implement Core Database Schema for Pet E-commerce
+Background:
+The application requires a robust database structure to store information about pets, products, categories, admin users, and customer leads. PostgreSQL has been selected as the primary database for its relational capabilities and JSONB support for flexible attributes.
+Description:
+Create the database schema including tables for Users (Admin), Pets, Categories, Products, Leads, and VisitorLogs with appropriate relationships, constraints, and indexes.
+Acceptance Criteria:
+
+Database schema implemented with appropriate primary and foreign keys
+Migration scripts created for schema changes
+Indexes added for frequently queried fields
+JSON/JSONB fields configured for flexible attributes
+Database connection and ORM configuration established
+Documentation of schema with entity relationship diagram
+
+Technology Suggestions:
+
+PostgreSQL 14+
+Sequelize, Prisma, or TypeORM for ORM
+Database migration tool (e.g., db-migrate, Knex, or built-in ORM migrations)
+
+Ticket 1.2: Authentication API Implementation
+Title: Implement Secure Admin Authentication Endpoints
+Background:
+Admin users need a secure way to authenticate to manage content. The authentication system should follow security best practices including password hashing, MFA, and protection against common vulnerabilities.
+Description:
+Develop authentication API endpoints for admin login, logout, password management, and multi-factor authentication.
+Acceptance Criteria:
+
+Login endpoint with secure password verification
+Implementation of Argon2id for password hashing
+TOTP-based MFA support
+Token generation for authenticated sessions
+Account lockout mechanism after failed attempts
+Password validation rules enforced
+Logout endpoint that invalidates tokens
+Unit tests for authentication flows
+
+Technology Suggestions:
+
+Express.js for API endpoints
+Argon2id for password hashing
+JWT or session-based authentication
+speakeasy or similar for TOTP implementation
+Rate limiting middleware for brute force protection
+
+Ticket 1.3: Core API Structure & Middleware
+Title: Establish API Architecture and Core Middleware
+Background:
+The backend needs a structured approach to handling requests, authorization, error handling, and cross-cutting concerns like logging and security.
+Description:
+Set up the core API structure with essential middleware for security, logging, error handling, and request validation.
+Acceptance Criteria:
+
+Project structure established for scalable API development
+CORS configuration appropriate for the application
+Security headers implemented (CSP, HSTS, etc.)
+Request validation middleware
+Authentication middleware for protected routes
+Standardized error handling and response format
+Request logging with appropriate detail level
+Basic health check endpoint
+Documentation of API architecture
+
+Technology Suggestions:
+
+Express.js
+Helmet.js for security headers
+Joi or express-validator for validation
+Winston or Pino for logging
+Morgan for HTTP request logging
+
+Ticket 1.4: Base CRUD APIs for Pets and Products
+Title: Implement Base CRUD Operations for Core Entities
+Background:
+Core entities (Pets, Products, Categories) need API endpoints for Create, Read, Update, and Delete operations to be consumed by the admin dashboard.
+Description:
+Develop RESTful API endpoints for managing pets, products, and categories with proper validation and error handling.
+Acceptance Criteria:
+
+CRUD endpoints for Pets with field validation
+CRUD endpoints for Products with field validation
+CRUD endpoints for Categories with field validation
+Proper error handling and informative error messages
+Filtering, sorting, and pagination for list endpoints
+Field validation and sanitization
+Unit tests for each endpoint
+API documentation (Swagger/OpenAPI)
+
+Technology Suggestions:
+
+Express.js
+Joi or express-validator for request validation
+Sequelize/Prisma/TypeORM for database operations
+Jest or Mocha for testing
+Swagger/OpenAPI for documentation
+
+Epic 2: Image Management System
+Goal: Implement a robust system for uploading, storing, processing, and delivering images for pets and products
+Ticket 2.1: Cloud Storage Integration
+Title: Integrate Cloud Storage for Image Files
+Background:
+The e-commerce site requires a scalable solution for storing and serving images. Cloud storage has been identified as the optimal solution for this purpose with CDN integration for performance.
+Description:
+Set up cloud storage integration with AWS S3 or Google Cloud Storage, focusing on secure upload/download operations and proper configuration.
+Acceptance Criteria:
+
+Cloud storage bucket created and configured
+Secure access credentials management
+Upload functionality with proper error handling
+Download/URL generation for stored files
+CORS configuration for direct uploads (if applicable)
+Lifecycle policies for cost optimization
+Documentation of storage architecture
+Configuration for different environments (dev/staging/prod)
+
+Technology Suggestions:
+
+AWS SDK for JavaScript or Google Cloud Storage Node.js client
+Environment-based configuration management
+Secure credential storage (environment variables/secrets manager)
+
+Ticket 2.2: Image Processing and Optimization
+Title: Implement Server-Side Image Processing
+Background:
+Images uploaded by admins need to be processed to ensure optimal quality, size, and format for web delivery while maintaining visual appeal.
+Description:
+Develop image processing functionality to create multiple resolutions of uploaded images, generate thumbnails, and optimize for web delivery.
+Acceptance Criteria:
+
+Image resizing to create multiple versions (thumbnail, medium, large)
+Image format conversion to modern web formats (WebP with fallbacks)
+Image compression for optimized file size
+Metadata preservation or extraction as needed
+Error handling for corrupt or invalid images
+Processing queue for handling multiple uploads
+Unit tests for image processing functions
+
+Technology Suggestions:
+
+Sharp or Jimp for Node.js image processing
+Bull or similar for processing queue (if needed)
+WebP support for modern image format
+
+Ticket 2.3: Image Upload API and Management
+Title: Create Image Upload and Management APIs
+Background:
+Admin users need APIs to upload and manage images for pets and products, including associating multiple images with specific items.
+Description:
+Develop API endpoints for image upload, association with products/pets, reordering, and deletion with proper validation and security.
+Acceptance Criteria:
+
+Secure multipart file upload endpoint
+File validation (type, size, dimensions)
+Association of uploaded images with pets/products
+Image metadata storage in database
+Image reordering functionality
+Image deletion with cloud storage cleanup
+Proper error handling and progress feedback
+Security measures to prevent abuse
+
+Technology Suggestions:
+
+Multer or Busboy for multipart form handling
+File type validation libraries
+Transaction support for database operations
+
+Ticket 2.4: CDN Integration for Image Delivery
+Title: Implement CDN for Optimized Image Delivery
+Background:
+Fast image loading is critical for e-commerce user experience. A Content Delivery Network will ensure images are served quickly to users regardless of their location.
+Description:
+Integrate a CDN service with the cloud storage solution to optimize image delivery performance.
+Acceptance Criteria:
+
+CDN configuration for cloud storage bucket
+URL generation that uses CDN endpoints
+Cache control settings optimization
+Image URL signing if required for security
+Testing of CDN performance in the target region (India)
+Documentation of CDN architecture and URL patterns
+Monitoring setup for CDN usage and performance
+
+Technology Suggestions:
+
+Cloudflare, AWS CloudFront, or Google Cloud CDN
+Cache-Control header management
+Origin shield configuration if applicable
+
+Epic 3: Admin Dashboard Frontend
+Goal: Develop a secure, intuitive admin interface for managing pets, products, and customer leads
+Ticket 3.1: Admin Authentication UI
+Title: Implement Admin Login and Authentication UI
+Background:
+Admin users need a secure interface to authenticate and access the dashboard with support for multi-factor authentication.
+Description:
+Create the login UI for admin users, including screens for username/password entry, MFA verification, and password management.
+Acceptance Criteria:
+
+Login form with validation
+MFA verification screen
+Password reset functionality
+Session management (timeout notifications, etc.)
+Error handling and user feedback
+Security features (no password display, etc.)
+Mobile-responsive design
+Accessibility compliance
+
+Technology Suggestions:
+
+React with Next.js
+Formik or React Hook Form for form management
+Yup for client-side validation
+CSS framework like Tailwind CSS
+
+Ticket 3.2: Dashboard Overview and Navigation
+Title: Develop Dashboard Home and Navigation Structure
+Background:
+Admins need an intuitive dashboard that provides a quick overview of key metrics and easy navigation to different management areas.
+Description:
+Create the main dashboard layout with navigation, overview statistics, and recent activity information.
+Acceptance Criteria:
+
+Main navigation menu with access to all management areas
+Overview cards showing key metrics (visitors, leads, etc.)
+Recent activity feed
+Responsive design that works on tablets and desktops
+User profile and account settings access
+Clear visual hierarchy and intuitive navigation
+Basic analytics visualization
+Loading states and error handling
+
+Technology Suggestions:
+
+React with Next.js
+React Router or Next.js routing
+Chart.js or Recharts for statistics visualization
+CSS framework like Tailwind CSS
+
+Ticket 3.3: Pet and Product Management UI
+Title: Create Pet and Product Management Interfaces
+Background:
+Admin users need interfaces to create, edit, view, and delete pets and products with all their associated information.
+Description:
+Develop the UI components for managing pets and products, including list views, detail forms, and image management.
+Acceptance Criteria:
+
+List view with sorting, filtering, and pagination
+Detail view/form for creating and editing items
+Image upload and management interface
+Form validation and error handling
+Confirmation dialogs for destructive actions
+Status toggles and quick actions
+Bulk operations where appropriate
+Responsive design for different screen sizes
+
+Technology Suggestions:
+
+React with Next.js
+React Hook Form or Formik for forms
+React Query for data fetching and cache management
+DnD library for image reordering
+
+Ticket 3.4: Lead Management Interface
+Title: Implement Customer Lead Management UI
+Background:
+Admin users need to access and manage collected customer information for follow-up and marketing purposes.
+Description:
+Create interfaces for viewing, filtering, and exporting customer lead information collected through the website.
+Acceptance Criteria:
+
+List view of leads with filtering and sorting options
+Detail view for individual lead information
+Export functionality (CSV/Excel)
+Status management for leads
+Note-taking capability for lead follow-up
+Search functionality
+Data privacy controls and warnings
+Responsive design for all screen sizes
+
+Technology Suggestions:
+
+React with Next.js
+React Table or similar for advanced table functionality
+Export libraries (xlsx, csv-stringify)
+Form components for filtering/search
+
+Epic 4: Customer-Facing Website Foundation
+Goal: Develop the core public-facing website components for browsing pets and products
+Ticket 4.1: Homepage and Core Layout
+Title: Implement Website Homepage and Layout Structure
+Background:
+The public-facing website needs an appealing homepage and consistent layout structure that showcases pets and products while providing easy navigation.
+Description:
+Develop the homepage and core layout components including header, navigation, footer, and main content areas.
+Acceptance Criteria:
+
+Responsive header with navigation menu
+Hero section for featured content
+Product/pet category highlights
+Footer with contact information for Dwarka location
+Mobile-responsive design
+Performance optimization for fast loading
+SEO-friendly markup
+Accessibility compliance
+
+Technology Suggestions:
+
+React with Next.js for SSR benefits
+CSS framework like Tailwind CSS
+Responsive image component
+Semantic HTML for SEO
+
+Ticket 4.2: Pet Listings and Detail Pages
+Title: Create Pet Browsing and Detail Pages
+Background:
+Customers need to browse available pets and view detailed information about specific pets they're interested in.
+Description:
+Develop the pet listing page with filtering capabilities and detailed pet profile pages showing comprehensive information.
+Acceptance Criteria:
+
+Grid/list view of pets with filtering options
+Pet cards with image, name, and key information
+Detailed pet profile page with multiple images
+Complete information display (breed, age, gender, etc.)
+Responsive design for all screen sizes
+Image gallery with zoom capability
+Contact/inquiry form specific to the pet
+Related pets or accessories suggestions
+
+Technology Suggestions:
+
+React with Next.js
+CSS Grid/Flexbox for responsive layouts
+Image gallery component
+Filter state management
+
+Ticket 4.3: Product Catalog Pages
+Title: Implement Product Catalog for Accessories and Food
+Background:
+Customers need to browse pet accessories and food products with appropriate categorization and details.
+Description:
+Create the product catalog pages for accessories and food items with category navigation and detailed product information.
+Acceptance Criteria:
+
+Category-based browsing for products
+Product cards with image, name, price
+Detailed product pages with complete information
+Filtering by product attributes
+Responsive design for mobile and desktop
+Image display with multiple views if available
+Clear categorization between accessories and food
+Quick view functionality (optional)
+
+Technology Suggestions:
+
+React with Next.js
+useState/useReducer for filter state management
+CSS framework for responsive grid layouts
+Lazy loading for images
+
+Ticket 4.4: Search Functionality
+Title: Implement Global Search Feature
+Background:
+Users need to quickly find specific pets or products across the website through a search function.
+Description:
+Develop a global search feature with autocomplete suggestions and results page showing categorized findings.
+Acceptance Criteria:
+
+Search bar in header accessible from all pages
+Autocomplete suggestions as user types
+Results page with categorized findings (pets/accessories/food)
+Filtering options within search results
+Handling for no results found
+Search history (optional)
+Mobile-friendly search interface
+Performance optimization for quick results
+
+Technology Suggestions:
+
+React with Next.js
+Debounce for search input
+API integration for search results
+State management for search context
+
+Epic 5: Lead Generation and Analytics
+Goal: Implement systems for collecting customer information and tracking website performance
+Ticket 5.1: Lead Collection Forms
+Title: Implement Customer Lead Collection Forms
+Background:
+The business needs to collect contact information from potential customers for follow-up and marketing purposes.
+Description:
+Create strategically placed lead collection forms throughout the website to capture visitor information.
+Acceptance Criteria:
+
+Contact form with name, email, phone, and message fields
+Newsletter subscription form
+Pet inquiry form on pet detail pages
+Form validation for all inputs
+Clear privacy notice regarding data collection
+Success/error feedback to users
+Mobile-responsive form design
+Spam prevention measures
+Backend API integration for data storage
+
+Technology Suggestions:
+
+React Hook Form or Formik
+Yup for validation
+reCAPTCHA or hCaptcha for spam prevention
+Smooth animations for form display/feedback
+
+Ticket 5.2: Analytics Integration
+Title: Implement Website Analytics Tracking
+Background:
+The business needs insights into visitor behavior, popular products, and website performance to make data-driven decisions.
+Description:
+Integrate analytics tracking to capture visitor data and user interactions throughout the website.
+Acceptance Criteria:
+
+Page view tracking across the site
+Event tracking for key user interactions
+Custom dimension tracking for product categories
+User journey/flow visualization
+Bounce rate monitoring
+Device and location tracking
+Integration with admin dashboard reporting
+Compliance with privacy regulations
+
+Technology Suggestions:
+
+Google Analytics, Matomo, or Plausible
+Custom event tracking hooks
+Server-side tracking where appropriate
+Consent management for privacy compliance
+
+Ticket 5.3: Lead Management Backend
+Title: Develop Lead Storage and Management Backend
+Background:
+Customer lead information needs to be securely stored and made accessible to admin users for follow-up.
+Description:
+Create the backend systems for storing, retrieving, and managing customer lead information.
+Acceptance Criteria:
+
+API endpoints for lead creation
+Storage of leads in the database
+Lead query API with filtering and sorting
+Export functionality for lead data
+Secure handling of personal information
+Input validation and sanitization
+Rate limiting to prevent abuse
+Compliance with data protection regulations
+
+Technology Suggestions:
+
+Express.js APIs
+PostgreSQL for data storage
+Input validation middleware
+CSV/Excel generation libraries for exports
+
+Ticket 5.4: Custom Dashboard Reports
+Title: Create Custom Analytics Reports for Admin Dashboard
+Background:
+Business owners need customized reports showing relevant metrics about website performance and lead generation.
+Description:
+Develop custom analytics reports and visualizations for the admin dashboard focused on business-relevant metrics.
+Acceptance Criteria:
+
+Visitor trends over time visualization
+Lead generation performance metrics
+Popular products/pets report
+Traffic source analysis
+User behavior flow visualization
+Device/location breakdown
+Data export capabilities
+Date range selection for all reports
+
+Technology Suggestions:
+
+Chart.js or Recharts for visualizations
+Date range picker component
+Data aggregation utilities
+CSV export functionality
+
+Ticket 5.5: Conversion Optimization Tools
+Title: Implement Lead Conversion Optimization Features
+Background:
+The business needs to maximize the conversion of visitors to leads through strategic website features.
+Description:
+Develop features designed to increase lead capture rates, such as timed popups, exit intent forms, and personalized CTAs.
+Acceptance Criteria:
+
+Timed popup lead form after X seconds on site
+Exit intent detection and lead capture form
+Strategic CTA placement throughout the site
+A/B testing capability for different lead forms
+Mobile-friendly implementation of all features
+Non-intrusive user experience
+Easy dismissal options for users
+Configuration options in admin dashboard
+
+Technology Suggestions:
+
+React hooks for timing and detection
+CSS animations for smooth presentation
+Local storage for controlling display frequency
+A/B testing framework (optional)

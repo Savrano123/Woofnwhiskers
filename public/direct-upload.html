@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Direct Upload Test</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    button {
+      padding: 8px 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    pre {
+      background-color: #f5f5f5;
+      padding: 10px;
+      border-radius: 4px;
+      overflow-x: auto;
+    }
+    .image-preview {
+      margin-top: 20px;
+      max-width: 100%;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Direct Upload Test</h1>
+  <p>This test sends the file directly as the request body.</p>
+
+  <div class="form-group">
+    <label for="file">Select File:</label>
+    <input type="file" id="file" accept="image/*" required>
+  </div>
+
+  <div class="form-group">
+    <label for="type">Select Type:</label>
+    <select id="type">
+      <option value="carousel">Carousel</option>
+      <option value="pets">Pets</option>
+      <option value="products">Products</option>
+    </select>
+  </div>
+
+  <button id="uploadButton">Upload</button>
+
+  <div id="result" style="margin-top: 20px; display: none;">
+    <h2>Result:</h2>
+    <pre id="resultContent"></pre>
+    <div id="imagePreview"></div>
+  </div>
+
+  <script>
+    document.getElementById('uploadButton').addEventListener('click', async function() {
+      const fileInput = document.getElementById('file');
+      const resultDiv = document.getElementById('result');
+      const resultContent = document.getElementById('resultContent');
+      const imagePreview = document.getElementById('imagePreview');
+
+      if (!fileInput.files || fileInput.files.length === 0) {
+        alert('Please select a file');
+        return;
+      }
+
+      resultDiv.style.display = 'block';
+      resultContent.textContent = 'Uploading...';
+      imagePreview.innerHTML = '';
+
+      try {
+        const file = fileInput.files[0];
+        console.log('Uploading file:', file.name);
+
+        // Read the file as an ArrayBuffer
+        const arrayBuffer = await file.arrayBuffer();
+        console.log(`File read as ArrayBuffer, size: ${arrayBuffer.byteLength} bytes`);
+
+        // Send the file directly
+        const typeSelect = document.getElementById('type');
+        const type = typeSelect.value;
+        console.log('Selected type:', type);
+
+        const response = await fetch(`/api/direct-upload?type=${type}`, {
+          method: 'POST',
+          body: arrayBuffer,
+          headers: {
+            'Content-Type': file.type
+          }
+        });
+
+        const responseText = await response.text();
+
+        try {
+          // Try to parse as JSON
+          const data = JSON.parse(responseText);
+          resultContent.textContent = JSON.stringify(data, null, 2);
+
+          if (data.success && data.path) {
+            // Show image preview
+            const img = document.createElement('img');
+            img.src = data.path + '?t=' + new Date().getTime(); // Add timestamp to prevent caching
+            img.alt = 'Uploaded image';
+            img.className = 'image-preview';
+            imagePreview.appendChild(img);
+          }
+        } catch (e) {
+          // If not JSON, show as text
+          resultContent.textContent = responseText;
+        }
+
+        if (!response.ok) {
+          resultContent.textContent = `Error (${response.status}): ${resultContent.textContent}`;
+        }
+      } catch (error) {
+        resultContent.textContent = `Error: ${error.message}`;
+        console.error('Upload error:', error);
+      }
+    });
+  </script>
+</body>
+</html>

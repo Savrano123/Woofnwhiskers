@@ -1,0 +1,68 @@
+[
+  {
+    "id": 1,
+    "name": "Rahul Sharma",
+    "email": "rahul.sharma@example.com",
+    "phone": "+91 98765 43210",
+    "interest": "pets",
+    "status": "new",
+    "message": "I am interested in adopting a Golden Retriever. Please let me know the process.",
+    "createdAt": "2023-04-13T12:00:00.000Z"
+  },
+  {
+    "id": 2,
+    "name": "Priya Patel",
+    "email": "priya.patel@example.com",
+    "phone": "+91 87654 32109",
+    "interest": "accessories",
+    "status": "contacted",
+    "message": "Looking for premium dog beds and toys for my Labrador.",
+    "createdAt": "2023-04-10T12:00:00.000Z"
+  },
+  {
+    "id": 3,
+    "name": "Amit Kumar",
+    "email": "amit.kumar@example.com",
+    "phone": "+91 76543 21098",
+    "interest": "food",
+    "status": "qualified",
+    "message": "Need recommendations for cat food for my Persian cat with sensitive stomach.",
+    "createdAt": "2023-04-05T12:00:00.000Z"
+  },
+  {
+    "id": 4,
+    "name": "Sneha Gupta",
+    "email": "sneha.gupta@example.com",
+    "phone": "+91 65432 10987",
+    "interest": "pets",
+    "status": "converted",
+    "message": "Visited your store yesterday and interested in the Siamese kitten.",
+    "createdAt": "2023-04-14T12:00:00.000Z"
+  },
+  {
+    "id": 5,
+    "name": "Vikram Singh",
+    "email": "vikram.singh@example.com",
+    "phone": "+91 54321 09876",
+    "interest": "general",
+    "status": "closed",
+    "message": "General inquiry about your store hours and location.",
+    "createdAt": "2023-04-08T12:00:00.000Z"
+  },
+  {
+    "name": "bhanu",
+    "email": "bhau@gmail.com",
+    "phone": "9891989898",
+    "message": "hello",
+    "interest": "pets",
+    "status": "new",
+    "source": "website",
+    "petId": 1,
+    "petName": "Max",
+    "productId": null,
+    "productName": null,
+    "createdAt": "2025-04-29T17:34:25.560Z",
+    "updatedAt": "2025-04-29T17:34:25.369Z",
+    "id": 6
+  }
+]

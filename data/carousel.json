@@ -1,0 +1,35 @@
+[
+  {
+    "title": "HELLO",
+    "description": "HELLO",
+    "imageUrl": "/images/carousel/1744911020606.jpg",
+    "buttonText": "",
+    "buttonLink": "",
+    "secondaryButtonText": "",
+    "secondaryButtonLink": "",
+    "id": 5,
+    "createdAt": "2025-04-17T17:30:20.656Z"
+  },
+  {
+    "title": "asdasd",
+    "description": "asdasdsa",
+    "imageUrl": "/images/carousel/1744911735908.jpg",
+    "buttonText": "",
+    "buttonLink": "",
+    "secondaryButtonText": "",
+    "secondaryButtonLink": "",
+    "id": 6,
+    "createdAt": "2025-04-17T17:42:15.923Z"
+  },
+  {
+    "title": "New food",
+    "description": "adada",
+    "imageUrl": "/images/carousel/1745948291521.jpg",
+    "buttonText": "DONE",
+    "buttonLink": "NONE",
+    "secondaryButtonText": "DONE",
+    "secondaryButtonLink": "NONE",
+    "id": 7,
+    "createdAt": "2025-04-29T17:38:11.739Z"
+  }
+]
