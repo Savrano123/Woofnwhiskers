@@ -160,6 +160,14 @@ export default function EditPet() {
         imageUrl = '/images/placeholder-pet.jpg';
       }
 
+      // We can't use fs in the browser, so we'll just check if the URL is valid
+      if (!imageUrl || imageUrl === '' || imageUrl === 'undefined') {
+        console.error('Invalid image URL');
+        imageUrl = '/images/placeholder-pet.jpg';
+      } else {
+        console.log(`Using image URL: ${imageUrl}`);
+      }
+
       const petData = {
         ...pet,
         imageUrl: imageUrl

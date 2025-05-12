@@ -1,80 +1,15 @@
 [
   {
-    "id": 1,
-    "name": "Max",
-    "species": "Dog",
-    "breed": "Golden Retriever",
-    "age": "2 years",
-    "gender": "Male",
-    "description": "This loving pet is looking for a forever home. They are well-behaved, friendly, and great with children.",
-    "price": 15000,
-    "status": "Available",
-    "imageUrl": "/images/pets/max.jpg",
-    "createdAt": "2023-04-13T12:00:00.000Z"
-  },
-  {
-    "id": 2,
-    "name": "Bella",
-    "species": "Dog",
-    "breed": "Labrador",
-    "age": "1 year",
-    "gender": "Female",
-    "description": "Bella is a playful and energetic Labrador who loves to run and play fetch. She's great with kids and other pets.",
-    "price": 12000,
-    "status": "Available",
-    "imageUrl": "/images/pets/max.jpg",
-    "createdAt": "2023-04-10T12:00:00.000Z"
-  },
-  {
-    "id": 3,
-    "name": "Charlie",
-    "species": "Cat",
-    "breed": "Persian",
-    "age": "3 years",
-    "gender": "Male",
-    "description": "Charlie is a calm and gentle Persian cat who enjoys lounging and being petted. He's perfect for a quiet home.",
-    "price": 8000,
-    "status": "Available",
-    "imageUrl": "/images/pets/max.jpg",
-    "createdAt": "2023-04-05T12:00:00.000Z"
-  },
-  {
-    "id": 4,
-    "name": "Luna",
-    "species": "Cat",
-    "breed": "Siamese",
-    "age": "2 years",
-    "gender": "Female",
-    "description": "Luna is a curious and vocal Siamese cat who loves to explore and interact with her humans. She's very intelligent.",
-    "price": 10000,
-    "status": "Available",
-    "imageUrl": "/images/pets/max.jpg",
-    "createdAt": "2023-04-14T12:00:00.000Z"
-  },
-  {
-    "name": "Lokiiii",
+    "name": "asd",
     "species": "asd",
     "breed": "asd",
     "age": "asd",
     "gender": "Male",
-    "description": "qwe",
-    "price": "1200",
+    "description": "1",
+    "price": "131313",
     "status": "Available",
-    "imageUrl": "/images/pets/max.jpg",
-    "id": 5,
-    "createdAt": "2025-04-16T16:23:58.223Z"
-  },
-  {
-    "name": "Charmender",
-    "species": "lizard",
-    "breed": "fire lizard",
-    "age": "1",
-    "gender": "Male",
-    "description": "none",
-    "price": "10000",
-    "status": "Available",
-    "imageUrl": "/images/pets/1745948164026.jpg",
-    "id": 6,
-    "createdAt": "2025-04-29T17:36:04.096Z"
+    "imageUrl": "/images/pets/1747059067655.png",
+    "id": 1,
+    "createdAt": "2025-05-12T14:11:07.776Z"
   }
 ]

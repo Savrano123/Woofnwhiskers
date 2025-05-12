@@ -30,6 +30,13 @@ export default async function handler(req, res) {
     const contentType = req.headers['content-type'] || 'image/jpeg';
     console.log(`Content type: ${contentType}`);
 
+    // Validate content type
+    const validContentTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+    if (!validContentTypes.includes(contentType)) {
+      console.error(`Invalid content type: ${contentType}`);
+      return res.status(400).json({ error: `Invalid content type: ${contentType}. Only JPEG, PNG, GIF, and WEBP are supported.` });
+    }
+
     // Determine file extension from content type
     let fileExt = '.jpg'; // Default extension
     if (contentType.includes('png')) {
@@ -49,6 +56,12 @@ export default async function handler(req, res) {
     // Try to get type from query parameters, default to carousel
     const type = req.query.type || 'carousel';
     console.log(`Upload type: ${type}`);
+
+    // Validate type
+    if (!types.includes(type)) {
+      console.error(`Invalid type: ${type}`);
+      return res.status(400).json({ error: `Invalid type: ${type}. Must be one of: ${types.join(', ')}` });
+    }
 
     const uploadDir = path.join(process.cwd(), 'public', 'images', type);
     console.log(`Upload directory: ${uploadDir}`);
@@ -70,6 +83,23 @@ export default async function handler(req, res) {
     if (!data || data.length === 0) {
       console.error('No data received');
       return res.status(400).json({ error: 'No data received' });
+    }
+
+    // Check if the data size is reasonable (max 5MB)
+    const maxSize = 5 * 1024 * 1024; // 5MB
+    if (data.length > maxSize) {
+      console.error(`File too large: ${data.length} bytes (max ${maxSize} bytes)`);
+      return res.status(400).json({ error: `File too large: ${data.length} bytes (max ${maxSize} bytes)` });
+    }
+
+    // Check if the data is a valid image (basic check for JPEG/PNG headers)
+    const isJpeg = data[0] === 0xFF && data[1] === 0xD8 && data[2] === 0xFF;
+    const isPng = data[0] === 0x89 && data[1] === 0x50 && data[2] === 0x4E && data[3] === 0x47;
+    const isGif = data[0] === 0x47 && data[1] === 0x49 && data[2] === 0x46;
+
+    if (!isJpeg && !isPng && !isGif && contentType !== 'image/webp') {
+      console.error('Invalid image data');
+      return res.status(400).json({ error: 'Invalid image data. The file does not appear to be a valid image.' });
     }
 
     // Write the data to a file
