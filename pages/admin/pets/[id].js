@@ -301,17 +301,17 @@ export default function EditPet() {
 
           <div>
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="price">
-              Price (₹)
+              Price (Contact for prices)
             </label>
             <input
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="price"
               name="price"
-              type="number"
-              min="0"
+              type="text"
               value={pet.price}
               onChange={handleChange}
               required
+              placeholder="Contact for prices"
             />
           </div>
 

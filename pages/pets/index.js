@@ -130,7 +130,7 @@ export async function getStaticProps() {
           age: '2 years',
           gender: 'Male',
           description: 'Max is a friendly and energetic Golden Retriever who loves to play fetch and go for long walks. He is great with children and other pets.',
-          price: 15000,
+          price: "Contact for prices",
           imageUrl: '/images/pets/max.jpg',
           createdAt: new Date().toISOString(),
           status: 'Available'
@@ -143,7 +143,7 @@ export async function getStaticProps() {
           age: '1 year',
           gender: 'Female',
           description: 'Bella is a sweet and gentle Labrador who enjoys cuddling and playing with toys. She is well-trained and gets along with everyone.',
-          price: 12000,
+          price: "Contact for prices",
           imageUrl: '/images/pets/max.jpg',
           createdAt: new Date().toISOString(),
           status: 'Available'

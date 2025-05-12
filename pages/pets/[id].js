@@ -68,7 +68,7 @@ export default function PetProfile({ pet }) {
               </div>
               <div>
                 <p className="text-gray-600">Price</p>
-                <p className="font-semibold text-blue-600">₹{pet.price}</p>
+                <p className="font-semibold text-blue-600">Contact for prices</p>
               </div>
             </div>
 
@@ -148,7 +148,7 @@ export async function getStaticProps({ params }) {
       age: ['2 years', '1 year', '3 years', '2 years'][parseInt(params.id) - 1] || 'Unknown',
       gender: ['Male', 'Female', 'Male', 'Female'][parseInt(params.id) - 1] || 'Unknown',
       description: 'This loving pet is looking for a forever home. They are well-behaved, friendly, and great with children. They have been vaccinated and are in excellent health.',
-      price: [15000, 12000, 8000, 10000][parseInt(params.id) - 1] || 5000,
+      price: "Contact for prices",
       imageUrl: '/images/pets/max.jpg',
       createdAt: new Date().toISOString(),
       status: 'Available'

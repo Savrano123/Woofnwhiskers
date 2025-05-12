@@ -10,15 +10,15 @@ export default function PetGrid({ pets = [] }) {
       </div>
     );
   }
-  
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       {pets.map(pet => (
         <Link href={`/pets/${pet.id}`} key={pet.id}>
           <a className="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105">
             <div className="relative h-48 w-full">
-              <Image 
-                src={pet.imageUrl || '/images/placeholder-pet.jpg'} 
+              <Image
+                src={pet.imageUrl || '/images/placeholder-pet.jpg'}
                 alt={pet.name}
                 layout="fill"
                 objectFit="cover"
@@ -28,9 +28,7 @@ export default function PetGrid({ pets = [] }) {
               <h3 className="text-xl font-semibold mb-1">{pet.name}</h3>
               <p className="text-gray-600 mb-1">{pet.breed}</p>
               <p className="text-gray-600 mb-2">{pet.age} • {pet.gender}</p>
-              {pet.price && (
-                <p className="text-blue-600 font-bold">₹{pet.price}</p>
-              )}
+              <p className="text-blue-600 font-bold">Contact for prices</p>
             </div>
           </a>
         </Link>
