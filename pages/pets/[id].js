@@ -6,6 +6,7 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import LeadCollectionForm from '../../components/LeadCollectionForm';
 import BackButton from '../../components/BackButton';
+import StaticImage from '../../components/StaticImage';
 
 export default function PetProfile({ pet }) {
   const [showContactForm, setShowContactForm] = useState(false);
@@ -33,13 +34,13 @@ export default function PetProfile({ pet }) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Pet Images */}
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
-            <div className="relative h-96 w-full">
-              <Image
+            <div className="relative h-96 w-full overflow-hidden">
+              <StaticImage
                 src={pet.imageUrl || '/images/placeholder-pet.jpg'}
+                fallbackSrc="/images/placeholder-pet.jpg"
                 alt={pet.name}
-                layout="fill"
-                objectFit="cover"
-                priority
+                className="w-full h-full"
+                style={{ objectFit: 'cover', objectPosition: 'center' }}
               />
             </div>
             <div className="p-4 text-sm text-gray-500">

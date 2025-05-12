@@ -61,7 +61,21 @@ export default function EditPet() {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      console.log('Pet image file selected:', file.name);
+      console.log('Pet image file selected:', file.name, 'type:', file.type, 'size:', file.size);
+
+      // Validate file type
+      const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+      if (!validTypes.includes(file.type)) {
+        alert('Please select a valid image file (JPEG, PNG, GIF, or WEBP)');
+        return;
+      }
+
+      // Validate file size (max 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        alert('Image file is too large. Please select a file smaller than 5MB.');
+        return;
+      }
+
       setImageFile(file);
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -75,6 +89,7 @@ export default function EditPet() {
       };
       reader.onerror = (error) => {
         console.error('FileReader error:', error);
+        alert('Error reading the image file. Please try another file.');
       };
       reader.readAsDataURL(file);
     }
@@ -99,31 +114,58 @@ export default function EditPet() {
       if (imageFile) {
         console.log('Uploading pet image file:', imageFile.name);
 
-        // Read the file as an ArrayBuffer for direct upload
-        const arrayBuffer = await imageFile.arrayBuffer();
-        console.log(`File read as ArrayBuffer, size: ${arrayBuffer.byteLength} bytes`);
+        try {
+          // Read the file as an ArrayBuffer for direct upload
+          const arrayBuffer = await imageFile.arrayBuffer();
+          console.log(`File read as ArrayBuffer, size: ${arrayBuffer.byteLength} bytes`);
 
-        console.log('Sending direct upload request...');
-        const uploadResponse = await fetch('/api/direct-upload?type=pets', {
-          method: 'POST',
-          body: arrayBuffer,
-          headers: {
-            'Content-Type': imageFile.type
+          console.log('Sending direct upload request...');
+          const uploadResponse = await fetch('/api/direct-upload?type=pets', {
+            method: 'POST',
+            body: arrayBuffer,
+            headers: {
+              'Content-Type': imageFile.type
+            }
+          });
+
+          console.log('Upload response status:', uploadResponse.status);
+
+          if (!uploadResponse.ok) {
+            const errorText = await uploadResponse.text();
+            console.error('Upload response error:', errorText);
+            throw new Error(`Failed to upload image: ${errorText}`);
           }
-        });
 
-        if (!uploadResponse.ok) {
-          throw new Error('Failed to upload image');
+          const uploadResult = await uploadResponse.json();
+          console.log('Upload result:', uploadResult);
+
+          if (uploadResult && uploadResult.filePath) {
+            imageUrl = uploadResult.filePath;
+            console.log('Image URL set to:', imageUrl);
+          } else {
+            console.error('Invalid upload result:', uploadResult);
+            throw new Error('Invalid upload result');
+          }
+        } catch (uploadError) {
+          console.error('Error during image upload:', uploadError);
+          alert(`Error uploading image: ${uploadError.message}`);
+          // Use default image if upload fails
+          imageUrl = '/images/placeholder-pet.jpg';
         }
+      }
 
-        const uploadResult = await uploadResponse.json();
-        imageUrl = uploadResult.filePath;
+      // Ensure we have a valid imageUrl
+      if (!imageUrl || imageUrl.startsWith('data:')) {
+        console.log('Using fallback image');
+        imageUrl = '/images/placeholder-pet.jpg';
       }
 
       const petData = {
         ...pet,
-        imageUrl: imageUrl || '/images/pets/max.jpg'
+        imageUrl: imageUrl
       };
+
+      console.log('Final pet data:', petData);
 
       const url = isNewPet ? '/api/pets' : `/api/pets/${id}`;
       const method = isNewPet ? 'POST' : 'PUT';
